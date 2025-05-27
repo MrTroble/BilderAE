@@ -12,21 +12,36 @@
  ch/.estore in = \cbCH,
  ca/.estore in = \cbCA,
  cb/.estore in = \cbCB,
+ l/.estore in = \cbL,
+ h/.estore in = \cbH,
+ a/.estore in = \cbA,
+ b/.estore in = \cbB,
+ name/.estore in = \cbName,
  default/.style = 
-  {ca=black, cb=black, ch=black, cl=black}
+  {ca=black, cb=black, ch=black, cl=black, a=A,b=B, h=H, l=L,name=defaultname}
 }
 
 \newcommand{\compareBlock}[3][]{
     \pgfkeys{/compareBlock, default, #1}%
-    \draw[color=\cbCA] ($(0, 2) + (#2, #3)$) -- ++(0.25, 0)node[anchor=west]{A};
-    \draw[color=\cbCB] ($(0, 1) + (#2, #3)$) -- ++(0.25, 0)node[anchor=west]{B};
-    \draw[color=\cbCL] ($(2, 1) + (#2, #3)$) -- ++(-0.25, 0)node[anchor=east]{L};
-    \draw[color=\cbCH] ($(2, 2) + (#2, #3)$) -- ++(-0.25, 0)node[anchor=east]{H};
+    \coordinate (\cbName_a) at ($(0, 2) + (#2, #3)$);
+    \coordinate (\cbName_b) at ($(0, 1) + (#2, #3)$);
+    \coordinate (\cbName_l) at ($(2, 1) + (#2, #3)$);
+    \coordinate (\cbName_h) at ($(2, 2) + (#2, #3)$);
+
+    \draw[color=\cbCA] (\cbName_a) -- ++(0.25, 0)node[anchor=west]{A};
+    \draw[color=\cbCB] (\cbName_b) -- ++(0.25, 0)node[anchor=west]{B};
+    \draw[color=\cbCL] (\cbName_l) -- ++(-0.25, 0)node[anchor=east]{L};
+    \draw[color=\cbCH] (\cbName_h) -- ++(-0.25, 0)node[anchor=east]{H};
     \draw[draw=black] (#2, #3) rectangle ++(2,3);
+}
+\newcommand{\connectCB}[3]{
+    \draw[color=#3] (#1) -- (#2);
 }
 
 \begin{document}
 \begin{tikzpicture}
-    \compareBlock[ca=blue,cb=red]{0}{0}
+    \compareBlock[name=cb1, ca=blue,cb=red]{0}{0}
+    \compareBlock[name=cb2, ca=blue,cb=red]{6}{1}
+    \connectCB{cb1_l}{cb2_b}{red}
 \end{tikzpicture}
 \end{document}
