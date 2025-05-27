@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfkeys}
+\usetikzlibrary{calc}
+
+\pgfkeys{
+ /compareBlock/.is family, /compareBlock,
+ cl/.estore in = \cbCL,
+ ch/.estore in = \cbCH,
+ ca/.estore in = \cbCA,
+ cb/.estore in = \cbCB,
+ default/.style = 
+  {ca=black, cb=black, ch=black, cl=black}
+}
+
+\newcommand{\compareBlock}[3][]{
+    \pgfkeys{/compareBlock, default, #1}%
+    \draw[color=\cbCA] ($(0, 2) + (#2, #3)$) -- ++(0.25, 0)node[anchor=west]{A};
+    \draw[color=\cbCB] ($(0, 1) + (#2, #3)$) -- ++(0.25, 0)node[anchor=west]{B};
+    \draw[color=\cbCL] ($(2, 1) + (#2, #3)$) -- ++(-0.25, 0)node[anchor=east]{L};
+    \draw[color=\cbCH] ($(2, 2) + (#2, #3)$) -- ++(-0.25, 0)node[anchor=east]{H};
+    \draw[draw=black] (#2, #3) rectangle ++(2,3);
+}
+
+\begin{document}
+\begin{tikzpicture}
+    \compareBlock[ca=blue,cb=red]{0}{0}
+\end{tikzpicture}
+\end{document}
