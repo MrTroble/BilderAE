@@ -73,4 +73,69 @@
     \connectCB{x3}{inU_b}{black}
     \connectCB{x4}{inL_b}{black}
 \end{tikzpicture}
+
+
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=2, b=4, ca=blue, cb=pink]{(0, 0)}
+    \compareBlock[name=inU, a=1, b=3, ca=red, cb=green]{(0, 2.5)}
+    \compareBlock[name=outL]{(3, 0)}
+    \compareBlock[name=outU]{(3, 2.5)}
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+
+    \inputCB{inU}{1}{2}
+    \inputCB{inL}{3}{4}
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{x1}{inU_a}{red}
+    \connectCB{x2}{inL_a}{blue}
+    \connectCB{x3}{inU_b}{green}
+    \connectCB{x4}{inL_b}{pink}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=2, b=4, h=4, l=2, ca=blue, cb=pink, cl=blue, ch=pink]{(0, 0)}
+    \compareBlock[name=inU, a=1, b=3, h=3, l=1, ca=red, cb=green, cl=red, ch=green]{(0, 2.5)}
+    \compareBlock[name=outL, a=1, b=2, ca=red, cb=blue]{(3, 0)}
+    \compareBlock[name=outU, a=3, b=4, ca=green, cb=pink]{(3, 2.5)}
+    \connectCB{inU_l}{outL_a}{red}
+    \connectCB{inL_l}{outL_b}{blue}
+    \connectCB{inU_h}{outU_a}{green}
+    \connectCB{inL_h}{outU_b}{pink}
+
+    \inputCB{inU}{1}{2}
+    \inputCB{inL}{3}{4}
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{x1}{inU_a}{red}
+    \connectCB{x2}{inL_a}{blue}
+    \connectCB{x3}{inU_b}{green}
+    \connectCB{x4}{inL_b}{pink}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=2, b=4, h=4, l=2, ca=blue, cb=pink, cl=blue, ch=pink]{(0, 0)}
+    \compareBlock[name=inU, a=1, b=3, h=3, l=1, ca=red, cb=green, cl=red, ch=green]{(0, 2.5)}
+    \compareBlock[name=outL, a=1, b=2, ca=red, cb=blue  , h=2,l=1,ch=blue,cl=red]{(3, 0)}
+    \compareBlock[name=outU, a=3, b=4, ca=green, cb=pink, h=4,l=3,ch=pink,cl=green]{(3, 2.5)}
+    \connectCB{inU_l}{outL_a}{red}
+    \connectCB{inL_l}{outL_b}{blue}
+    \connectCB{inU_h}{outU_a}{green}
+    \connectCB{inL_h}{outU_b}{pink}
+
+    \inputCB{inU}{1}{2}
+    \inputCB{inL}{3}{4}
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{x1}{inU_a}{red}
+    \connectCB{x2}{inL_a}{blue}
+    \connectCB{x3}{inU_b}{green}
+    \connectCB{x4}{inL_b}{pink}
+\end{tikzpicture}
+
 \end{document}
