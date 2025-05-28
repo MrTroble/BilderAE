@@ -18,7 +18,7 @@
  b/.estore in = \cbB,
  name/.estore in = \cbName,
  default/.style = 
-  {ca=black, cb=black, ch=black, cl=black, a=A,b=B, h=H, l=L,name=defaultname}
+  {ca=black, cb=black, ch=black, cl=black, a=X,b=Y, h=H, l=L,name=defaultname}
 }
 
 \newcommand{\compareBlock}[2][]{
@@ -37,6 +37,12 @@
 \newcommand{\connectCB}[3]{
     \draw[color=#3] (#1) -- (#2);
 }
+\newcommand{\inputCB}[3]{
+    \coordinate (#2) at ($(#1_a) - (0.5, 0)$);
+    \coordinate (#3) at ($(#1_b) - (0.5, 0)$);
+    \node at (#2) [anchor=east]{#2};
+    \node at (#3) [anchor=east]{#3};
+}
 
 \begin{document}
 \begin{tikzpicture}
@@ -48,5 +54,11 @@
     \connectCB{inL_l}{outL_b}{black}
     \connectCB{inU_h}{outU_a}{black}
     \connectCB{inL_h}{outU_b}{black}
+    \inputCB{inU}{x1}{x2}
+    \inputCB{inL}{x3}{x4}
+    \connectCB{x1}{inU_a}{black}
+    \connectCB{x2}{inL_a}{black}
+    \connectCB{x3}{inU_b}{black}
+    \connectCB{x4}{inL_b}{black}
 \end{tikzpicture}
 \end{document}
