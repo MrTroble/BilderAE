@@ -138,4 +138,51 @@
     \connectCB{x4}{inL_b}{pink}
 \end{tikzpicture}
 
+\section{Sorting network}
+
+A bitonic sorting network is created by using several bitonic sorter. 
+These bitonic sorters are recursivly used to create two monotonic one decreasing and one increasing sequence who are then put into the next stage.
+This creates a bitonic series for the next stage which can then use this bitonic series to be used as a monotonic series for the next stage.
+Consider the following example for a n=4 bitonic sort network.
+
+\begin{tikzpicture}
+    
+    \draw[color=black] (-2.25, 6) -- node[above] {Bitonic sorting network} node[below] {k=2,n=4} (4.5, 6);
+    \draw[color=blue] (0, 5) -- node[above] {Bitonic sorter} node[below] {k=2,n=4} (4.5, 5);
+    \draw[color=green] (-2.25, 5) -- node[above] {Sorter} node[below] {k=1} (-0.75, 5);
+
+    \draw[->,color=orange] (-2.5, 4.5) -- node[left] {increasing} (-2.5, 2.5);
+    \draw[<-,color=orange] (-2.5, 2) -- node[left] {decreasing} (-2.5, 0);
+
+    \compareBlock[name=inL]{(0, 0)}
+    \compareBlock[name=inU]{(0, 2.5)}
+    \compareBlock[name=outL]{(3, 0)}
+    \compareBlock[name=outU]{(3, 2.5)}
+    \compareBlock[name=preL, l=H, h=L]{(-2.25, 0)}
+    \compareBlock[name=preU]{(-2.25, 2.5)}
+
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{x1}{inU_a}{black}
+    \connectCB{x2}{inL_a}{black}
+    \connectCB{x3}{inU_b}{black}
+    \connectCB{x4}{inL_b}{black}
+\end{tikzpicture}
+
+The bitonic sorting network for k=2 can be created by using a k=2 bitonic sorter and two k=k-1 sorter.
+The two sorter create a decreasingly or increasingly sorted sequence in order to create a bitonic input for the bitonic sorter.
+Bitonic sorting networks of a lower order are mostly used for the two pre sorters, therefore a recursiv definition of a bitonic sorting network from bitonic sorters can be descibed.
+In the above example the two bitonic sorting networks are k=1 networks hence they are just a comparator.
+
+\section{Bitonic Sorter}
+
+With a bitonic sorter only bitonic inputs can only be used to sort bitonic inputs. 
+In order to sort arbitrary input sequences a bitonic sorting network can be created from bitonic sorters.
+
 \end{document}
