@@ -185,7 +185,22 @@ In the bitonic sort layer there are two bitonic sorters of order k-1 how take th
 This can be done recursivly for each k using an input of each monotonic sequence per comparator.
 The following illustration shows the connection of the recombination in order for this two work.
 
+\begin{tikzpicture}
+    \compareBlock[name=t1]{(0, 0)}
+    \compareBlock[name=t2]{(0, -2.5)}
+    \compareBlock[name=t3]{(0, -5)}
 
+
+    \compareBlock[name=l3]{(0, -9)}
+    \compareBlock[name=l2]{(0, -11.5)}
+    \compareBlock[name=l1]{(0, -14)}
+\end{tikzpicture}
+
+As you can see the first half of each sequence is compared against the last half of each sequence. 
+
+\subsection{Proof of the bitonic sorter}
+
+Ken Batcher provided some mathematical proof sketch in his paper.
 
 \section{Sorting network}
 
