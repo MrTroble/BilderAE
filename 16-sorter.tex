@@ -178,6 +178,15 @@ For example consider the following k=2 (n=4) bitonic sorter.
     \connectCB{x4}{inL_b}{black}
 \end{tikzpicture}
 
+The bitonic sorter consist of two layers a recombination layer and bitonic sorters of a lower order.
+The recombination layer recombines the bitonic inputs into two new bitonic sequences who are half as big as the original sequence.
+In the bitonic sort layer there are two bitonic sorters of order k-1 how take the again bitonic input of the recombination and sort them.
+
+This can be done recursivly for each k using an input of each monotonic sequence per comparator.
+The following illustration shows the connection of the recombination in order for this two work.
+
+
+
 \section{Sorting network}
 
 A bitonic sorting network is created by using several bitonic sorter. 
