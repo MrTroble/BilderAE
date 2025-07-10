@@ -37,12 +37,18 @@
 \newcommand{\connectCB}[3]{
     \draw[color=#3] (#1) -- (#2);
 }
+\newcommand{\inputSingle}[3]{
+    \coordinate (#2) at #3;
+    \node at (#2) [anchor=east]{#2};
+    \connectCB{#2}{#1}{black};
+}
 \newcommand{\inputCB}[3]{
     \coordinate (#2) at ($(#1_a) - (0.75, 0)$);
     \coordinate (#3) at ($(#1_b) - (0.75, 0)$);
     \node at (#2) [anchor=east]{#2};
     \node at (#3) [anchor=east]{#3};
 }
+
 \newcommand{\outputCB}[3]{
     \coordinate (#2) at ($(#1_h) + (0.25, 0)$);
     \coordinate (#3) at ($(#1_l) + (0.25, 0)$);
@@ -190,10 +196,25 @@ The following illustration shows the connection of the recombination in order fo
     \compareBlock[name=t2]{(0, -2.5)}
     \compareBlock[name=t3]{(0, -5)}
 
+    \inputSingle{t1_a}{a1}{($(t1_a) - (1.5, 0)$)}
+    \inputSingle{t2_a}{a2}{($(a1) - (0, 0.5)$)}
+    \inputSingle{t3_a}{a3}{($(a2) - (0, 0.5)$)}
+
+    \draw[draw=black] (5, 2) rectangle ++(3, -7.5);
+    \node at (8, -3) [anchor=east]{Bitonic Sorter};
+    \node at (8, -3.5) [anchor=east]{k=k-1};
 
     \compareBlock[name=l3]{(0, -9)}
     \compareBlock[name=l2]{(0, -11.5)}
     \compareBlock[name=l1]{(0, -14)}
+
+    \draw[draw=black] (5, -6.5) rectangle ++(3, -7.5);
+    \node at (8, -12) [anchor=east]{Bitonic Sorter};
+    \node at (8, -12.5) [anchor=east]{k=k-1};
+
+    \draw[draw=black] (0, -5.75) rectangle ++(1.5, -0.5);
+    \node at (0, -6) [anchor=west]{\dots};
+
 \end{tikzpicture}
 
 As you can see the first half of each sequence is compared against the last half of each sequence. 
