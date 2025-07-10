@@ -229,6 +229,19 @@ The following illustration shows the connection of the recombination in order fo
     \draw[color=blue] (l3_l) -- ($(l2_l) + (3.5, 0)$);
     \draw[color=red] (l3_h) -- (5, -4.6);
 
+    \inputSingle{l1_b}{a2n-2}{($(l1_b) - (1.5, 0)$)}
+    \inputSingle{l2_b}{a2n-1}{($(a2n-2) + (0, 0.5)$)}
+    \inputSingle{l3_b}{a2n}{($(a2n-1) + (0, 0.5)$)}
+
+    \coordinate (middle) at (0, -6);
+    \inputSingle{l1_a}{an}{($(middle) - (1.5, -0.2)$)}
+    \inputSingle{l2_a}{an-1}{($(an) + (0, 0.5)$)}
+    \inputSingle{l3_a}{an-2}{($(an-1) + (0, 0.5)$)}
+
+    \inputSingle{t1_b}{an+1}{($(middle) - (1.5, 0.2)$)}
+    \inputSingle{t2_b}{an+2}{($(an+1) - (0, 0.5)$)}
+    \inputSingle{t3_b}{an+3}{($(an+2) - (0, 0.5)$)}
+
 \end{tikzpicture}
 
 As you can see the first half of each sequence is compared against the last half of each sequence. 
