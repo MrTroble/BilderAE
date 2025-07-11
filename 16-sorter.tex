@@ -37,10 +37,10 @@
 \newcommand{\connectCB}[3]{
     \draw[color=#3] (#1) -- (#2);
 }
-\newcommand{\inputSingle}[3]{
+\newcommand{\inputSingle}[5]{
     \coordinate (#2) at #3;
-    \node at (#2) [anchor=east]{#2};
-    \connectCB{#2}{#1}{black};
+    \node at (#2) [anchor=east]{#4};
+    \connectCB{#2}{#1}{#5};
 }
 \newcommand{\inputCB}[3]{
     \coordinate (#2) at ($(#1_a) - (0.75, 0)$);
@@ -196,9 +196,9 @@ The following illustration shows the connection of the recombination in order fo
     \compareBlock[name=t2]{(0, -2.5)}
     \compareBlock[name=t3]{(0, -5)}
 
-    \inputSingle{t1_a}{a1}{($(t1_a) - (1.5, 0)$)}
-    \inputSingle{t2_a}{a2}{($(a1) - (0, 0.5)$)}
-    \inputSingle{t3_a}{a3}{($(a2) - (0, 0.5)$)}
+    \inputSingle{t1_a}{a1}{($(t1_a) - (1.5, 0)$)}{$a_1$}{green}
+    \inputSingle{t2_a}{a2}{($(a1) - (0, 0.5)$)}{$a_2$}{green}
+    \inputSingle{t3_a}{a3}{($(a2) - (0, 0.5)$)}{$a_3$}{green}
 
     \draw[draw=black] (5, 2) rectangle ++(3, -7.5);
     \node at (8, -3) [anchor=east]{Bitonic Sorter};
@@ -229,22 +229,25 @@ The following illustration shows the connection of the recombination in order fo
     \draw[color=blue] (l3_l) -- ($(l2_l) + (3.5, 0)$);
     \draw[color=red] (l3_h) -- (5, -4.6);
 
-    \inputSingle{l1_b}{a2n-2}{($(l1_b) - (1.5, 0)$)}
-    \inputSingle{l2_b}{a2n-1}{($(a2n-2) + (0, 0.5)$)}
-    \inputSingle{l3_b}{a2n}{($(a2n-1) + (0, 0.5)$)}
+    \inputSingle{l1_b}{a2n-2}{($(l1_b) - (1.5, 0)$)}{$a_{2n-2}$}{orange}
+    \inputSingle{l2_b}{a2n-1}{($(a2n-2) + (0, 0.5)$)}{$a_{2n-1}$}{orange}
+    \inputSingle{l3_b}{a2n}{($(a2n-1) + (0, 0.5)$)}{$a_{2n}$}{orange}
 
     \coordinate (middle) at (0, -6);
-    \inputSingle{l1_a}{an}{($(middle) - (1.5, -0.2)$)}
-    \inputSingle{l2_a}{an-1}{($(an) + (0, 0.5)$)}
-    \inputSingle{l3_a}{an-2}{($(an-1) + (0, 0.5)$)}
+    \inputSingle{l1_a}{an}{($(middle) - (1.5, -0.2)$)}{$a_n$}{green}
+    \inputSingle{l2_a}{an-1}{($(an) + (0, 0.5)$)}{$a_{n-1}$}{green}
+    \inputSingle{l3_a}{an-2}{($(an-1) + (0, 0.5)$)}{$a_{n-2}$}{green}
 
-    \inputSingle{t1_b}{an+1}{($(middle) - (1.5, 0.2)$)}
-    \inputSingle{t2_b}{an+2}{($(an+1) - (0, 0.5)$)}
-    \inputSingle{t3_b}{an+3}{($(an+2) - (0, 0.5)$)}
+    \inputSingle{t1_b}{an+1}{($(middle) - (1.5, 0.2)$)}{$a_{n+1}$}{orange}
+    \inputSingle{t2_b}{an+2}{($(an+1) - (0, 0.5)$)}{$a_{n+2}$}{orange}
+    \inputSingle{t3_b}{an+3}{($(an+2) - (0, 0.5)$)}{$a_{n+3}$}{orange}
 
 \end{tikzpicture}
 
 As you can see the first half of each sequence is compared against the last half of each sequence. 
+Both subsequences are already monotonicly decreasing or increasing respectivly.
+Comparing each element of the (green) subsequence with the element of the other (orange) subsequence at the respective index produces two bitonic subsequences.
+These two bitonic series (blue and red respectivly) can then be feed into the next lower order bitonic sorter.
 
 \subsection{Proof of the bitonic sorter}
 
