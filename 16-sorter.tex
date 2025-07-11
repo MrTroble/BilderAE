@@ -295,6 +295,31 @@ The two sorter create a decreasingly or increasingly sorted sequence in order to
 Bitonic sorting networks of a lower order are mostly used for the two pre sorters, therefore a recursiv definition of a bitonic sorting network from bitonic sorters can be descibed.
 In the above example the two bitonic sorting networks are k=1 networks hence they are just a comparator.
 
+The following figure shows the overall scheme.
 
+\begin{tikzpicture}
+    \draw[draw=black] (5, 0) rectangle ++(3, 4.5);
+    \node at (8, 1.5) [anchor=east]{Bitonic Sorter};
+    \node at (8, 1) [anchor=east]{k=k+1};
+    
+    \draw[draw=black] (0, 0) rectangle ++(4, 2);
+    \node at (3.5, 1) [anchor=east]{Sorter};
+    \node at (3.5, 0.5) [anchor=east]{k};
+
+    \draw[draw=black] (0, 2.5) rectangle ++(4, 2);
+    \node at (3.5, 3.5) [anchor=east]{Sorter};
+    \node at (3.5, 3) [anchor=east]{k};
+
+    \draw[color=black] (4, 0.25) -- (5, 0.25);
+    \draw[color=black] (4, 0.5) -- (5, 0.5);
+    \draw[color=black] (4, 0.75) -- (5, 0.75);
+    
+    \draw[color=black] (4, 4.25) -- (5, 4.25);
+    \draw[color=black] (4, 4) -- (5, 4);
+    \draw[color=black] (4, 3.75) -- (5, 3.75);
+
+    \node at (4, 1.25) [anchor=west]{\dots};
+    \node at (4, 3.25) [anchor=west]{\dots};
+\end{tikzpicture}
 
 \end{document}
