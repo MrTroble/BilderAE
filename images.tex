@@ -1,4 +1,4 @@
-\documentclass[tikz,border=0.1cm]{standalone}
+\documentclass[tikz,border=0.1cm,convert={svg, perpage=false,command=\unexpanded{{inkscape --pdf-poppler --pages=1 -o \outfile\space --export-type="svg" \infile}}}]{standalone}
 
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -205,6 +205,6 @@
 
 \begin{document}
 
-\compareBlockExample
+\networkOverview
 
 \end{document}
