@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[tikz,border=0.1cm]{standalone}
 
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -58,108 +58,13 @@
     \connectCB{#3}{#1_l}{black}
 }
 
-\begin{document}
-\begin{tikzpicture}
-    \compareBlock[name=inL]{(0, 0)}
-    \compareBlock[name=inU]{(0, 2.5)}
-    \compareBlock[name=outL]{(3, 0)}
-    \compareBlock[name=outU]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{black}
-    \connectCB{inL_l}{outL_b}{black}
-    \connectCB{inU_h}{outU_a}{black}
-    \connectCB{inL_h}{outU_b}{black}
-
-    \inputCB{inU}{x1}{x2}
-    \inputCB{inL}{x3}{x4}
-    \outputCB{outU}{z1}{z2}
-    \outputCB{outL}{z3}{z4}
-
-    \connectCB{x1}{inU_a}{black}
-    \connectCB{x2}{inL_a}{black}
-    \connectCB{x3}{inU_b}{black}
-    \connectCB{x4}{inL_b}{black}
-\end{tikzpicture}
-
-
-\begin{tikzpicture}
-    \compareBlock[name=inL, a=2, b=4, ca=blue, cb=pink]{(0, 0)}
-    \compareBlock[name=inU, a=1, b=3, ca=red, cb=green]{(0, 2.5)}
-    \compareBlock[name=outL]{(3, 0)}
-    \compareBlock[name=outU]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{black}
-    \connectCB{inL_l}{outL_b}{black}
-    \connectCB{inU_h}{outU_a}{black}
-    \connectCB{inL_h}{outU_b}{black}
-
-    \inputCB{inU}{1}{2}
-    \inputCB{inL}{3}{4}
-    \outputCB{outU}{z1}{z2}
-    \outputCB{outL}{z3}{z4}
-
-    \connectCB{x1}{inU_a}{red}
-    \connectCB{x2}{inL_a}{blue}
-    \connectCB{x3}{inU_b}{green}
-    \connectCB{x4}{inL_b}{pink}
-\end{tikzpicture}
-
-\begin{tikzpicture}
-    \compareBlock[name=inL, a=2, b=4, h=4, l=2, ca=blue, cb=pink, cl=blue, ch=pink]{(0, 0)}
-    \compareBlock[name=inU, a=1, b=3, h=3, l=1, ca=red, cb=green, cl=red, ch=green]{(0, 2.5)}
-    \compareBlock[name=outL, a=1, b=2, ca=red, cb=blue]{(3, 0)}
-    \compareBlock[name=outU, a=3, b=4, ca=green, cb=pink]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{red}
-    \connectCB{inL_l}{outL_b}{blue}
-    \connectCB{inU_h}{outU_a}{green}
-    \connectCB{inL_h}{outU_b}{pink}
-
-    \inputCB{inU}{1}{2}
-    \inputCB{inL}{3}{4}
-    \outputCB{outU}{z1}{z2}
-    \outputCB{outL}{z3}{z4}
-
-    \connectCB{x1}{inU_a}{red}
-    \connectCB{x2}{inL_a}{blue}
-    \connectCB{x3}{inU_b}{green}
-    \connectCB{x4}{inL_b}{pink}
-\end{tikzpicture}
-
-\begin{tikzpicture}
-    \compareBlock[name=inL, a=2, b=4, h=4, l=2, ca=blue, cb=pink, cl=blue, ch=pink]{(0, 0)}
-    \compareBlock[name=inU, a=1, b=3, h=3, l=1, ca=red, cb=green, cl=red, ch=green]{(0, 2.5)}
-    \compareBlock[name=outL, a=1, b=2, ca=red, cb=blue  , h=2,l=1,ch=blue,cl=red]{(3, 0)}
-    \compareBlock[name=outU, a=3, b=4, ca=green, cb=pink, h=4,l=3,ch=pink,cl=green]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{red}
-    \connectCB{inL_l}{outL_b}{blue}
-    \connectCB{inU_h}{outU_a}{green}
-    \connectCB{inL_h}{outU_b}{pink}
-
-    \inputCB{inU}{1}{2}
-    \inputCB{inL}{3}{4}
-    \outputCB{outU}{z1}{z2}
-    \outputCB{outL}{z3}{z4}
-
-    \connectCB{x1}{inU_a}{red}
-    \connectCB{x2}{inL_a}{blue}
-    \connectCB{x3}{inU_b}{green}
-    \connectCB{x4}{inL_b}{pink}
-\end{tikzpicture}
-
-\section{Bitonic Sorter}
-
-With a bitonic sorter, only bitonic sequences can be used as inputs.
-To sort arbitrary input sequences, a bitonic sorting network can be created from bitonic sorters.
-For bitonic sorting networks, see the next chapter.
-
-A bitonic sorter for k=1 (n=2) is trivially just a comparator. 
-Which we illustrate by using the given box layout with X and Y being the inputs and H the higher output and L the lower output, respectively.
-
+\newcommand{\compareBlockExample}{
 \begin{tikzpicture}
     \compareBlock[name=inL]{(0, 0)}
 \end{tikzpicture}
+}
 
-With the sorter for k=1, we can recursively create a sorter of higher order.
-For example, consider the following k=2 (n=4) bitonic sorter.
-
+\newcommand{\kTwoBitonicSorter}{
 \begin{tikzpicture}
     \draw[color=blue] (3, 5) -- node[above] {Bitonic sorter} node[below] {k=1,n=2} (4.5, 5);
     \draw[color=green] (0, 5) -- node[above] {Recombination} (1.5, 5);
@@ -183,15 +88,10 @@ For example, consider the following k=2 (n=4) bitonic sorter.
     \connectCB{x3}{inU_b}{black}
     \connectCB{x4}{inL_b}{black}
 \end{tikzpicture}
+}
 
-The bitonic sorter consists of two layers: a recombination layer and bitonic sorters of a lower order.
-The recombination layer recombines the bitonic inputs into two new bitonic sequences that are half as big as the original sequence.
-In the bitonic sort layer, there are two bitonic sorters of order k-1 that take the bitonic input of the recombination and sort them again.
-
-This can be done recursively for each k using an input of each monotonic sequence per comparator.
-The following illustration shows the connection of the recombination in order for this to work.
-
-\begin{tikzpicture}
+\newcommand{\mergeScheme}{
+    \begin{tikzpicture}
     \compareBlock[name=t1]{(0, 0)}
     \compareBlock[name=t2]{(0, -2.5)}
     \compareBlock[name=t3]{(0, -5)}
@@ -243,26 +143,10 @@ The following illustration shows the connection of the recombination in order fo
     \inputSingle{t3_b}{an+3}{($(an+2) - (0, 0.5)$)}{$a_{n+3}$}{orange}
 
 \end{tikzpicture}
+}
 
-As you can see, the first half of each sequence is compared against the last half of each sequence. 
-Both subsequences are already monotonically decreasing or increasing, respectively.
-Comparing each element of the (green) subsequence with the element of the other (orange) subsequence at the respective index produces two bitonic subsequences.
-These two bitonic series (blue and red, respectively) can then be fed into the next lower-order bitonic sorter.
-This can be done because all elements in the red sequence are guaranteed to be higher than all elements in the blue series.
-
-\subsection{Proof of the bitonic sorter}
-
-Ken Batcher provided some mathematical proof sketch in his paper.
-
-\section{Sorting network}
-
-A bitonic sorting network is created by using several bitonic sorters. 
-These bitonic sorters are recursively used to create two monotonic sequences, one decreasing and one increasing, which are then put into the next stage.
-This creates a bitonic series for the next stage, which can then use this bitonic series as a monotonic series for the next stage.
-Consider the following example for an n=4 bitonic sort network.
-
+\newcommand{\kTwoNetwork}{
 \begin{tikzpicture}
-    
     \draw[color=black] (-2.25, 6) -- node[above] {Bitonic sorting network} node[below] {k=2,n=4} (4.5, 6);
     \draw[color=blue] (0, 5) -- node[above] {Bitonic sorter} node[below] {k=2,n=4} (4.5, 5);
     \draw[color=green] (-2.25, 5) -- node[above] {Sorter} node[below] {k=1} (-0.75, 5);
@@ -285,18 +169,14 @@ Consider the following example for an n=4 bitonic sort network.
     \outputCB{outU}{z1}{z2}
     \outputCB{outL}{z3}{z4}
 
-    \connectCB{x1}{inU_a}{black}
-    \connectCB{x2}{inL_a}{black}
-    \connectCB{x3}{inU_b}{black}
-    \connectCB{x4}{inL_b}{black}
+    \connectCB{preU_h}{inU_a}{black}
+    \connectCB{preU_l}{inL_a}{black}
+    \connectCB{preL_h}{inU_b}{black}
+    \connectCB{preL_l}{inL_b}{black}
 \end{tikzpicture}
+}
 
-The bitonic sorting network for k=2 can be created by using a k=2 bitonic sorter and two k=k-1 sorters.
-The two sorters create a decreasingly or increasingly sorted sequence in order to create a bitonic input for the bitonic sorter.
-Bitonic sorting networks of a lower order are mostly used for the two pre-sorters; therefore, a recursive definition of a bitonic sorting network from bitonic sorters can be described.
-In the above example, the two bitonic sorting networks are k=1 networks; hence, they are just a comparator.
-The following figure shows the overall scheme.
-
+\newcommand{\networkOverview}{
 \begin{tikzpicture}
     \draw[draw=black] (5, 0) rectangle ++(3, 4.5);
     \node at (8, 1.5) [anchor=east]{Bitonic Sorter};
@@ -321,7 +201,10 @@ The following figure shows the overall scheme.
     \node at (4, 1.25) [anchor=west]{\dots};
     \node at (4, 3.25) [anchor=west]{\dots};
 \end{tikzpicture}
+}
 
+\begin{document}
 
+\compareBlockExample
 
 \end{document}
