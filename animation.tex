@@ -1,0 +1,329 @@
+\documentclass[tikz,border=0.2cm,convert={svg, perpage=false,command=\unexpanded{{inkscape --pdf-poppler --pages=1 -o \outfile\space --export-type="svg" \infile}}}]{standalone}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfkeys}
+\usetikzlibrary{calc}
+
+\pgfkeys{
+ /compareBlock/.is family, /compareBlock,
+ cl/.estore in = \cbCL,
+ ch/.estore in = \cbCH,
+ ca/.estore in = \cbCA,
+ cb/.estore in = \cbCB,
+ l/.estore in = \cbL,
+ h/.estore in = \cbH,
+ a/.estore in = \cbA,
+ b/.estore in = \cbB,
+ name/.estore in = \cbName,
+ default/.style = 
+  {ca=black, cb=black, ch=black, cl=black, a=X,b=Y, h=H, l=L,name=defaultname}
+}
+
+\newcommand{\compareBlock}[2][]{
+    \pgfkeys{/compareBlock, default, #1}%
+    \coordinate (\cbName_a) at ($(0, 1.33) + #2$);
+    \coordinate (\cbName_b) at ($(0, 0.66) + #2$);
+    \coordinate (\cbName_l) at ($(1.5, 0.66) + #2$);
+    \coordinate (\cbName_h) at ($(1.5, 1.33) + #2$);
+
+    \draw[color=\cbCA] (\cbName_a) -- ++(0.2, 0)node[anchor=west]{\cbA};
+    \draw[color=\cbCB] (\cbName_b) -- ++(0.2, 0)node[anchor=west]{\cbB};
+    \draw[color=\cbCL] (\cbName_l) -- ++(-0.2, 0)node[anchor=east]{\cbL};
+    \draw[color=\cbCH] (\cbName_h) -- ++(-0.2, 0)node[anchor=east]{\cbH};
+    \draw[draw=black] #2 rectangle ++(1.5,2);
+}
+\newcommand{\connectCB}[3]{
+    \draw[color=#3] (#1) -- (#2);
+}
+\newcommand{\inputSingle}[5]{
+    \coordinate (#2) at #3;
+    \node at (#2) [anchor=east]{#4};
+    \connectCB{#2}{#1}{#5};
+}
+\newcommand{\inputCB}[3]{
+    \coordinate (#2) at ($(#1_a) - (0.75, 0)$);
+    \coordinate (#3) at ($(#1_b) - (0.75, 0)$);
+    \node at (#2) [anchor=east]{#2};
+    \node at (#3) [anchor=east]{#3};
+}
+
+\newcommand{\outputCB}[3]{
+    \coordinate (#2) at ($(#1_h) + (0.25, 0)$);
+    \coordinate (#3) at ($(#1_l) + (0.25, 0)$);
+    \node at (#2) [anchor=west]{#2};
+    \node at (#3) [anchor=west]{#3};
+    \connectCB{#2}{#1_h}{black}
+    \connectCB{#3}{#1_l}{black}
+}
+
+\newcommand{\compareBlockExample}{
+\begin{tikzpicture}
+    \compareBlock[name=inL]{(0, 0)}
+\end{tikzpicture}
+}
+
+\newcommand{\kTwoBitonicSorter}{
+\begin{tikzpicture}
+    \draw[color=blue] (3, 5) -- node[above] {Bitonic sorter} node[below] {k=1,n=2} (4.5, 5);
+    \draw[color=green] (0, 5) -- node[above] {Recombination} (1.5, 5);
+
+    \compareBlock[name=inL]{(0, 0)}
+    \compareBlock[name=inU]{(0, 2.5)}
+    \compareBlock[name=outL]{(3, 0)}
+    \compareBlock[name=outU]{(3, 2.5)}
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+
+    \inputCB{inU}{x1}{x2}
+    \inputCB{inL}{x3}{x4}
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{x1}{inU_a}{black}
+    \connectCB{x2}{inL_a}{black}
+    \connectCB{x3}{inU_b}{black}
+    \connectCB{x4}{inL_b}{black}
+\end{tikzpicture}
+}
+
+\newcommand{\mergeScheme}{
+    \begin{tikzpicture}
+    \compareBlock[name=t1]{(0, 0)}
+    \compareBlock[name=t2]{(0, -2.5)}
+    \compareBlock[name=t3]{(0, -5)}
+
+    \inputSingle{t1_a}{a1}{($(t1_a) - (1.5, 0)$)}{$a_1$}{green}
+    \inputSingle{t2_a}{a2}{($(a1) - (0, 0.5)$)}{$a_2$}{green}
+    \inputSingle{t3_a}{a3}{($(a2) - (0, 0.5)$)}{$a_3$}{green}
+
+    \draw[draw=black] (5, 2) rectangle ++(3, -7.5);
+    \node at (8, -3) [anchor=east]{Bitonic Sorter};
+    \node at (8, -3.5) [anchor=east]{k=k-1};
+
+    \compareBlock[name=l3]{(0, -9)}
+    \compareBlock[name=l2]{(0, -11.5)}
+    \compareBlock[name=l1]{(0, -14)}
+
+    \draw[draw=black] (5, -6.5) rectangle ++(3, -7.5);
+    \node at (8, -12) [anchor=east]{Bitonic Sorter};
+    \node at (8, -12.5) [anchor=east]{k=k-1};
+
+    \draw[draw=black] (0, -5.75) rectangle ++(1.5, -0.5);
+    \node at (0, -6) [anchor=west]{\dots};
+
+    \draw[color=red] (t1_h) -- ($(t1_h) + (3.5, 0)$);
+    \draw[color=blue] (t1_l) -- (5, -6.6);
+    \draw[color=red] (t2_h) -- ($(t1_l) + (3.5, 0)$);
+    \draw[color=blue] (t2_l) -- (5, -7);
+    \draw[color=red] (t3_h) -- ($(t2_h) + (3.5, 0)$);
+    \draw[color=blue] (t3_l) -- (5, -7.4);
+
+    \draw[color=blue] (l1_l) -- ($(l1_l) + (3.5, 0)$);
+    \draw[color=red] (l1_h) -- (5, -5.4);
+    \draw[color=blue] (l2_l) -- ($(l1_h) + (3.5, 0)$);
+    \draw[color=red] (l2_h) -- (5, -5);
+    \draw[color=blue] (l3_l) -- ($(l2_l) + (3.5, 0)$);
+    \draw[color=red] (l3_h) -- (5, -4.6);
+
+    \inputSingle{l1_b}{a2n-2}{($(l1_b) - (1.5, 0)$)}{$a_{2n}$}{orange}
+    \inputSingle{l2_b}{a2n-1}{($(a2n-2) + (0, 0.5)$)}{$a_{2n-1}$}{orange}
+    \inputSingle{l3_b}{a2n}{($(a2n-1) + (0, 0.5)$)}{$a_{2n-2}$}{orange}
+
+    \coordinate (middle) at (0, -6);
+    \inputSingle{l1_a}{an}{($(middle) - (1.5, -0.2)$)}{$a_n$}{green}
+    \inputSingle{l2_a}{an-1}{($(an) + (0, 0.5)$)}{$a_{n-1}$}{green}
+    \inputSingle{l3_a}{an-2}{($(an-1) + (0, 0.5)$)}{$a_{n-2}$}{green}
+
+    \inputSingle{t1_b}{an+1}{($(middle) - (1.5, 0.2)$)}{$a_{n+1}$}{orange}
+    \inputSingle{t2_b}{an+2}{($(an+1) - (0, 0.5)$)}{$a_{n+2}$}{orange}
+    \inputSingle{t3_b}{an+3}{($(an+2) - (0, 0.5)$)}{$a_{n+3}$}{orange}
+
+\end{tikzpicture}
+}
+
+\newcommand{\kTwoNetwork}{
+\begin{tikzpicture}
+    \draw[color=black] (-2.25, 6) -- node[above] {Bitonic sorting network} node[below] {k=2,n=4} (4.5, 6);
+    \draw[color=blue] (0, 5) -- node[above] {Bitonic sorter} node[below] {k=2,n=4} (4.5, 5);
+    \draw[color=green] (-2.25, 5) -- node[above] {Sorter} node[below] {k=1} (-0.75, 5);
+
+    \draw[->,color=orange] (-2.5, 4.5) -- node[left] {increasing} (-2.5, 2.5);
+    \draw[<-,color=orange] (-2.5, 2) -- node[left] {decreasing} (-2.5, 0);
+
+    \compareBlock[name=inL]{(0, 0)}
+    \compareBlock[name=inU]{(0, 2.5)}
+    \compareBlock[name=outL]{(3, 0)}
+    \compareBlock[name=outU]{(3, 2.5)}
+    \compareBlock[name=preL, l=H, h=L]{(-2.25, 0)}
+    \compareBlock[name=preU]{(-2.25, 2.5)}
+
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{preU_h}{inU_a}{black}
+    \connectCB{preU_l}{inL_a}{black}
+    \connectCB{preL_h}{inU_b}{black}
+    \connectCB{preL_l}{inL_b}{black}
+\end{tikzpicture}
+}
+
+\newcommand{\networkOverview}{
+\begin{tikzpicture}
+    \draw[draw=black] (5, 0) rectangle ++(3, 4.5);
+    \node at (8, 1.5) [anchor=east]{Bitonic Sorter};
+    \node at (8, 1) [anchor=east]{k=k+1};
+    
+    \draw[draw=black] (0, 0) rectangle ++(4, 2);
+    \node at (3.5, 1) [anchor=east]{Sorter};
+    \node at (3.5, 0.5) [anchor=east]{k};
+
+    \draw[draw=black] (0, 2.5) rectangle ++(4, 2);
+    \node at (3.5, 3.5) [anchor=east]{Sorter};
+    \node at (3.5, 3) [anchor=east]{k};
+
+    \draw[color=black] (4, 0.25) -- (5, 0.25);
+    \draw[color=black] (4, 0.5) -- (5, 0.5);
+    \draw[color=black] (4, 0.75) -- (5, 0.75);
+    
+    \draw[color=black] (4, 4.25) -- (5, 4.25);
+    \draw[color=black] (4, 4) -- (5, 4);
+    \draw[color=black] (4, 3.75) -- (5, 3.75);
+
+    \node at (4, 1.25) [anchor=west]{\dots};
+    \node at (4, 3.25) [anchor=west]{\dots};
+\end{tikzpicture}
+}
+
+\newcommand{\animationOne}{
+\begin{tikzpicture}
+    \compareBlock[name=inL]{(0, 0)}
+    \compareBlock[name=inU]{(0, 2.5)}
+    \compareBlock[name=outL]{(2.5, 0)}
+    \compareBlock[name=outU]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{black}
+    \connectCB{preL_h}{inU_b}{black}
+    \connectCB{preU_l}{inL_a}{black}
+    \connectCB{preU_h}{inU_a}{black}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
+\end{tikzpicture}
+}
+
+\newcommand{\animationTwo}{
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=1, b=3, ca=red, cb=teal]{(0, 0)}
+    \compareBlock[name=inU, a=2, b=4, ca=blue, cb=orange]{(0, 2.5)}
+    \compareBlock[name=outL]{(2.5, 0)}
+    \compareBlock[name=outU]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4, h=4,l=3, ch=orange, cl=teal]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2, h=2,l=1, ch=blue,cl=red]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{teal}
+    \connectCB{preL_h}{inU_b}{orange}
+    \connectCB{preU_l}{inL_a}{red}
+    \connectCB{preU_h}{inU_a}{blue}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
+\end{tikzpicture}
+}
+
+\newcommand{\animationThree}{
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=1, b=3, ca=red, cb=teal, h=3, l=1, ch=teal, cl=red]{(0, 0)}
+    \compareBlock[name=inU, a=2, b=4, ca=blue, cb=orange, h=4, l=2, ch=orange, cl=blue]{(0, 2.5)}
+    \compareBlock[name=outL, a=2, b=1, cb=red, ca=blue]{(2.5, 0)}
+    \compareBlock[name=outU, a=4, b=3, cb=teal, ca=orange]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{blue}
+    \connectCB{inL_l}{outL_b}{red}
+    \connectCB{inU_h}{outU_a}{orange}
+    \connectCB{inL_h}{outU_b}{teal}
+
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4, h=4,l=3, ch=orange, cl=teal]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2, h=2,l=1, ch=blue,cl=red]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{teal}
+    \connectCB{preL_h}{inU_b}{orange}
+    \connectCB{preU_l}{inL_a}{red}
+    \connectCB{preU_h}{inU_a}{blue}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
+\end{tikzpicture}
+}
+
+\newcommand{\animationFour}{
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=1, b=3, ca=red, cb=teal, h=3, l=1, ch=teal, cl=red]{(0, 0)}
+    \compareBlock[name=inU, a=2, b=4, ca=blue, cb=orange, h=4, l=2, ch=orange, cl=blue]{(0, 2.5)}
+    \compareBlock[name=outL, a=2, b=1, cb=red, ca=blue, h=2, l=1, cl=red, ch=blue]{(2.5, 0)}
+    \compareBlock[name=outU, a=4, b=3, cb=teal, ca=orange, h=4, l=3, cl=teal, ch=orange]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{blue}
+    \connectCB{inL_l}{outL_b}{red}
+    \connectCB{inU_h}{outU_a}{orange}
+    \connectCB{inL_h}{outU_b}{teal}
+
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4, h=4,l=3, ch=orange, cl=teal]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2, h=2,l=1, ch=blue,cl=red]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{teal}
+    \connectCB{preL_h}{inU_b}{orange}
+    \connectCB{preU_l}{inL_a}{red}
+    \connectCB{preU_h}{inU_a}{blue}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
+\end{tikzpicture}
+}
+
+\begin{document}
+
+\animationOne
+
+\end{document}
