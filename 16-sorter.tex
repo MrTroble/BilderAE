@@ -62,86 +62,113 @@
 \begin{tikzpicture}
     \compareBlock[name=inL]{(0, 0)}
     \compareBlock[name=inU]{(0, 2.5)}
-    \compareBlock[name=outL]{(3, 0)}
-    \compareBlock[name=outU]{(3, 2.5)}
+    \compareBlock[name=outL]{(2.5, 0)}
+    \compareBlock[name=outU]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{black}
+    \connectCB{inL_l}{outL_b}{black}
+    \connectCB{inU_h}{outU_a}{black}
+    \connectCB{inL_h}{outU_b}{black}
+    \outputCB{outU}{z1}{z2}
+    \outputCB{outL}{z3}{z4}
+
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{black}
+    \connectCB{preL_h}{inU_b}{black}
+    \connectCB{preU_l}{inL_a}{black}
+    \connectCB{preU_h}{inU_a}{black}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+    \compareBlock[name=inL, a=1, b=3, ca=red, cb=teal]{(0, 0)}
+    \compareBlock[name=inU, a=2, b=4, ca=blue, cb=orange]{(0, 2.5)}
+    \compareBlock[name=outL]{(2.5, 0)}
+    \compareBlock[name=outU]{(2.5, 2.5)}
     \connectCB{inU_l}{outL_a}{black}
     \connectCB{inL_l}{outL_b}{black}
     \connectCB{inU_h}{outU_a}{black}
     \connectCB{inL_h}{outU_b}{black}
 
-    \inputCB{inU}{x1}{x2}
-    \inputCB{inL}{x3}{x4}
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4, h=4,l=3, ch=orange, cl=teal]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2, h=2,l=1, ch=blue,cl=red]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{teal}
+    \connectCB{preL_h}{inU_b}{orange}
+    \connectCB{preU_l}{inL_a}{red}
+    \connectCB{preU_h}{inU_a}{blue}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
     \outputCB{outU}{z1}{z2}
     \outputCB{outL}{z3}{z4}
 
-    \connectCB{x1}{inU_a}{black}
-    \connectCB{x2}{inL_a}{black}
-    \connectCB{x3}{inU_b}{black}
-    \connectCB{x4}{inL_b}{black}
-\end{tikzpicture}
-
-
-\begin{tikzpicture}
-    \compareBlock[name=inL, a=2, b=4, ca=blue, cb=pink]{(0, 0)}
-    \compareBlock[name=inU, a=1, b=3, ca=red, cb=green]{(0, 2.5)}
-    \compareBlock[name=outL]{(3, 0)}
-    \compareBlock[name=outU]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{black}
-    \connectCB{inL_l}{outL_b}{black}
-    \connectCB{inU_h}{outU_a}{black}
-    \connectCB{inL_h}{outU_b}{black}
-
-    \inputCB{inU}{1}{2}
-    \inputCB{inL}{3}{4}
-    \outputCB{outU}{z1}{z2}
-    \outputCB{outL}{z3}{z4}
-
-    \connectCB{x1}{inU_a}{red}
-    \connectCB{x2}{inL_a}{blue}
-    \connectCB{x3}{inU_b}{green}
-    \connectCB{x4}{inL_b}{pink}
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
 \end{tikzpicture}
 
 \begin{tikzpicture}
-    \compareBlock[name=inL, a=2, b=4, h=4, l=2, ca=blue, cb=pink, cl=blue, ch=pink]{(0, 0)}
-    \compareBlock[name=inU, a=1, b=3, h=3, l=1, ca=red, cb=green, cl=red, ch=green]{(0, 2.5)}
-    \compareBlock[name=outL, a=1, b=2, ca=red, cb=blue]{(3, 0)}
-    \compareBlock[name=outU, a=3, b=4, ca=green, cb=pink]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{red}
-    \connectCB{inL_l}{outL_b}{blue}
-    \connectCB{inU_h}{outU_a}{green}
-    \connectCB{inL_h}{outU_b}{pink}
+    \compareBlock[name=inL, a=1, b=3, ca=red, cb=teal, h=3, l=1, ch=teal, cl=red]{(0, 0)}
+    \compareBlock[name=inU, a=2, b=4, ca=blue, cb=orange, h=4, l=2, ch=orange, cl=blue]{(0, 2.5)}
+    \compareBlock[name=outL, a=2, b=1, cb=red, ca=blue]{(2.5, 0)}
+    \compareBlock[name=outU, a=4, b=3, cb=teal, ca=orange]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{blue}
+    \connectCB{inL_l}{outL_b}{red}
+    \connectCB{inU_h}{outU_a}{orange}
+    \connectCB{inL_h}{outU_b}{teal}
 
-    \inputCB{inU}{1}{2}
-    \inputCB{inL}{3}{4}
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4, h=4,l=3, ch=orange, cl=teal]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2, h=2,l=1, ch=blue,cl=red]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{teal}
+    \connectCB{preL_h}{inU_b}{orange}
+    \connectCB{preU_l}{inL_a}{red}
+    \connectCB{preU_h}{inU_a}{blue}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
     \outputCB{outU}{z1}{z2}
     \outputCB{outL}{z3}{z4}
 
-    \connectCB{x1}{inU_a}{red}
-    \connectCB{x2}{inL_a}{blue}
-    \connectCB{x3}{inU_b}{green}
-    \connectCB{x4}{inL_b}{pink}
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
 \end{tikzpicture}
 
 \begin{tikzpicture}
-    \compareBlock[name=inL, a=2, b=4, h=4, l=2, ca=blue, cb=pink, cl=blue, ch=pink]{(0, 0)}
-    \compareBlock[name=inU, a=1, b=3, h=3, l=1, ca=red, cb=green, cl=red, ch=green]{(0, 2.5)}
-    \compareBlock[name=outL, a=1, b=2, ca=red, cb=blue  , h=2,l=1,ch=blue,cl=red]{(3, 0)}
-    \compareBlock[name=outU, a=3, b=4, ca=green, cb=pink, h=4,l=3,ch=pink,cl=green]{(3, 2.5)}
-    \connectCB{inU_l}{outL_a}{red}
-    \connectCB{inL_l}{outL_b}{blue}
-    \connectCB{inU_h}{outU_a}{green}
-    \connectCB{inL_h}{outU_b}{pink}
+    \compareBlock[name=inL, a=1, b=3, ca=red, cb=teal, h=3, l=1, ch=teal, cl=red]{(0, 0)}
+    \compareBlock[name=inU, a=2, b=4, ca=blue, cb=orange, h=4, l=2, ch=orange, cl=blue]{(0, 2.5)}
+    \compareBlock[name=outL, a=2, b=1, cb=red, ca=blue, h=2, l=1, cl=red, ch=blue]{(2.5, 0)}
+    \compareBlock[name=outU, a=4, b=3, cb=teal, ca=orange, h=4, l=3, cl=teal, ch=orange]{(2.5, 2.5)}
+    \connectCB{inU_l}{outL_a}{blue}
+    \connectCB{inL_l}{outL_b}{red}
+    \connectCB{inU_h}{outU_a}{orange}
+    \connectCB{inL_h}{outU_b}{teal}
 
-    \inputCB{inU}{1}{2}
-    \inputCB{inL}{3}{4}
+    \compareBlock[name=preL, ca=teal, cb=orange, a=3, b=4, h=4,l=3, ch=orange, cl=teal]{(-2.5, 0)}
+    \compareBlock[name=preU, ca=red, cb=blue, a=1, b=2, h=2,l=1, ch=blue,cl=red]{(-2.5, 2.5)}
+    \connectCB{preL_l}{inL_b}{teal}
+    \connectCB{preL_h}{inU_b}{orange}
+    \connectCB{preU_l}{inL_a}{red}
+    \connectCB{preU_h}{inU_a}{blue}
+    \inputCB{preU}{1}{2}
+    \inputCB{preL}{3}{4}
+
     \outputCB{outU}{z1}{z2}
     \outputCB{outL}{z3}{z4}
 
-    \connectCB{x1}{inU_a}{red}
-    \connectCB{x2}{inL_a}{blue}
-    \connectCB{x3}{inU_b}{green}
-    \connectCB{x4}{inL_b}{pink}
+    \connectCB{1}{preU_a}{red}
+    \connectCB{2}{preU_b}{blue}
+    \connectCB{3}{preL_a}{teal}
+    \connectCB{4}{preL_b}{orange}
 \end{tikzpicture}
 
 \section{Bitonic Sorter}
